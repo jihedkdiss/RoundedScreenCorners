@@ -1,0 +1,196 @@
+name: Build and Package MSIX
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rounded-screen-corners-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    permissions:
+      contents: read
+
+    outputs:
+      app_version: ${{ steps.extract_version.outputs.version }}
+
+    strategy:
+      matrix:
+        configuration: ["GitHub Release", "Release"]
+
+    env:
+      PROJECT_PATH: RoundedScreenCorners\RoundedScreenCorners.csproj
+      CONFIGURATION: ${{ matrix.configuration }}
+      PLATFORM: x64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v3
+
+      - name: Extract app version
+        id: extract_version
+        shell: pwsh
+        run: |
+          [xml]$manifest = Get-Content 'RoundedScreenCorners\Package.appxmanifest'
+          $fullVersion = $manifest.Package.Identity.Version
+          $version = ($fullVersion -split '\.')[0..2] -join '.'
+          "APP_VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Import signing certificate (GitHub Release only)
+        if: matrix.configuration == 'GitHub Release'
+        shell: pwsh
+        env:
+          RSC_SIGNING_PFX_BASE64: ${{ secrets.RSC_SIGNING_PFX_BASE64 }}
+          RSC_SIGNING_PFX_PASSWORD: ${{ secrets.RSC_SIGNING_PFX_PASSWORD }}
+        run: |
+          $pfx = "RoundedScreenCorners\RoundedScreenCorners_TemporaryKey.pfx"
+          if ([string]::IsNullOrWhiteSpace($env:RSC_SIGNING_PFX_BASE64)) {
+            throw "Set the RSC_SIGNING_PFX_BASE64 repository secret before building GitHub releases."
+          }
+          [IO.File]::WriteAllBytes($pfx, [Convert]::FromBase64String($env:RSC_SIGNING_PFX_BASE64))
+          if ([string]::IsNullOrEmpty($env:RSC_SIGNING_PFX_PASSWORD)) {
+            $pwd = New-Object System.Security.SecureString
+          } else {
+            $pwd = ConvertTo-SecureString $env:RSC_SIGNING_PFX_PASSWORD -AsPlainText -Force
+          }
+          Import-PfxCertificate -FilePath $pfx -CertStoreLocation Cert:\CurrentUser\My -Password $pwd | Out-Null
+
+      - name: Restore
+        run: msbuild $env:PROJECT_PATH -t:Restore "-p:Configuration=$env:CONFIGURATION" "-p:Platform=$env:PLATFORM"
+
+      - name: Build & Package (MSIX)
+        shell: pwsh
+        env:
+          RSC_SIGNING_PFX_PASSWORD: ${{ secrets.RSC_SIGNING_PFX_PASSWORD }}
+        run: |
+          $packageOutput = Join-Path $env:GITHUB_WORKSPACE 'AppxPackages'
+          $buildArgs = @(
+            $env:PROJECT_PATH
+            "-p:Configuration=$env:CONFIGURATION"
+            "-p:Platform=$env:PLATFORM"
+            '-p:AppxBundle=Always'
+            '-p:AppxBundlePlatforms=x64|arm64'
+            '-p:GenerateAppxPackageOnBuild=true'
+            "-p:AppxPackageDir=$packageOutput\"
+          )
+          if ($env:CONFIGURATION -eq 'GitHub Release' -and $env:RSC_SIGNING_PFX_PASSWORD) {
+            $buildArgs += "-p:PackageCertificatePassword=$env:RSC_SIGNING_PFX_PASSWORD"
+          }
+          & msbuild @buildArgs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Prepare GitHub Release artifact
+        if: matrix.configuration == 'GitHub Release'
+        shell: pwsh
+        run: |
+          $outDir = "$env:GITHUB_WORKSPACE\InstallerOutput"
+          New-Item -ItemType Directory -Path $outDir | Out-Null
+          $testFolder = Get-ChildItem "$env:GITHUB_WORKSPACE\AppxPackages" -Directory |
+            Where-Object { $_.Name -like '*_Test' } | Select-Object -First 1
+          if (-not $testFolder) { throw "No *_Test folder produced under AppxPackages" }
+          Move-Item $testFolder.FullName "$outDir\SystemFiles"
+          Copy-Item ".github\build-files\RoundedScreenCorners_Installer.bat" "$outDir\"
+          Copy-Item ".github\build-files\Install-RoundedScreenCorners.ps1" "$outDir\"
+          Copy-Item ".github\build-files\README.txt" "$outDir\"
+          $zipName = "RoundedScreenCorners_${env:APP_VERSION}_${env:PLATFORM}_Installer.zip"
+          $zipPath = "$env:GITHUB_WORKSPACE\release-asset\$zipName"
+          New-Item -ItemType Directory -Path "$env:GITHUB_WORKSPACE\release-asset" | Out-Null
+          Compress-Archive -Path "$outDir\*" -DestinationPath $zipPath
+
+      - name: Locate Store .msixupload
+        if: matrix.configuration == 'Release'
+        id: locate
+        shell: pwsh
+        run: |
+          $upload = Get-ChildItem -Path AppxPackages -Recurse -Filter *.msixupload | Select-Object -First 1
+          if (-not $upload) { throw "No .msixupload produced" }
+          $stagedDir = "$env:GITHUB_WORKSPACE\release-asset"
+          New-Item -ItemType Directory -Path $stagedDir | Out-Null
+          Copy-Item $upload.FullName $stagedDir
+          "path=$($upload.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Upload GitHub Release artifact (free installer)
+        if: matrix.configuration == 'GitHub Release'
+        uses: actions/upload-artifact@v7
+        with:
+          name: free-installer
+          path: release-asset\RoundedScreenCorners_${{ env.APP_VERSION }}_${{ env.PLATFORM }}_Installer.zip
+          if-no-files-found: error
+
+      - name: Upload Store submission artifact (.msixupload)
+        if: matrix.configuration == 'Release'
+        uses: actions/upload-artifact@v7
+        with:
+          name: store-msixupload
+          path: release-asset\*.msixupload
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      APP_VERSION: ${{ needs.build.outputs.app_version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download free installer
+        uses: actions/download-artifact@v8
+        with:
+          name: free-installer
+          path: release-assets
+
+      - name: Download Store package
+        uses: actions/download-artifact@v8
+        with:
+          name: store-msixupload
+          path: release-assets
+
+      - name: List release assets
+        run: ls -la release-assets
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="v${APP_VERSION}"
+          NOTES_FILE="$(mktemp)"
+          cat > "$NOTES_FILE" <<EOF
+          ## Rounded Screen Corners v${APP_VERSION}
+
+          Two artifacts are attached to this release:
+
+          - **\`RoundedScreenCorners_${APP_VERSION}_x64_Installer.zip\`** -- sideload installer for end users. Unzip and run \`RoundedScreenCorners_Installer.bat\` (see \`README.txt\` inside).
+          - **\`*.msixupload\`** -- Microsoft Store submission package. For maintainer use only; uploaded to Partner Center for Store review.
+          EOF
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG exists; uploading assets with --clobber"
+            gh release upload "$TAG" release-assets/* --clobber
+          else
+            echo "Creating release $TAG"
+            gh release create "$TAG" release-assets/* \
+              --title "Rounded Screen Corners v${APP_VERSION}" \
+              --notes-file "$NOTES_FILE"
+          fi

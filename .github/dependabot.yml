@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/RoundedScreenCorners/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      # Major bumps can change WinUI 3 deprecations and MSIX package behavior.
+      # Upgrade deliberately, not via auto-PR.
+      - dependency-name: "Microsoft.WindowsAppSDK"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"

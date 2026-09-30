@@ -1,0 +1,33 @@
+'ui':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'RoundedScreenCorners/MainWindow.{xaml,xaml.cs}'
+          - 'RoundedScreenCorners/App.xaml{,.cs}'
+
+'core':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'RoundedScreenCorners/Services/**'
+          - 'RoundedScreenCorners/Models/**'
+          - 'RoundedScreenCorners/Program.cs'
+
+'packaging':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'RoundedScreenCorners/Package.appxmanifest'
+          - 'RoundedScreenCorners/RoundedScreenCorners.csproj'
+          - 'RoundedScreenCorners/app.manifest'
+          - 'RoundedScreenCorners/Assets/**'
+
+'ci':
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/workflows/**'
+          - '.github/build-files/**'
+
+'docs':
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.md'
+          - '.github/*.md'
+          - '.github/ISSUE_TEMPLATE/**'

@@ -1,0 +1,90 @@
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Visual Studio Code
+.vscode/
+
+## Rider / JetBrains
+.idea/
+*.sln.iml
+
+## Claude Code
+.claude/
+
+## Windows Store / MSIX packaging output
+AppPackages/
+AppxPackages/
+BundleArtifacts/
+InstallerOutput/
+Package.StoreAssociation.xml
+*.appxsym
+*.appx
+*.appxbundle
+*.appxupload
+*.msix
+*.msixbundle
+*.msixupload
+
+## Publish
+publish/
+*.pubxml
+*.pubxml.user
+PublishScripts/
+
+## .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Python
+__pycache__/
+*.py[cod]
+
+## NuGet
+**/packages/*
+*.nupkg
+*.snupkg
+**/[Nn]u[Gg]et/**/*
+
+## Test results
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+
+## Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## Misc
+*.log
+*.binlog
+settings.json
+.kilo/
+
+## Signing
+# Private signing keys must never be committed. CI receives the PFX from a GitHub Actions secret.
+*.pfx

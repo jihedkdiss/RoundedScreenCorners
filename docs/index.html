@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rounded Screen Corners — Beautiful rounded corners for Windows displays</title>
+  <meta name="description" content="Rounded Screen Corners is a lightweight Windows utility that adds customizable rounded corner overlays to your displays. Built with WinUI 3 and .NET 8. Free on GitHub, also on the Microsoft Store." />
+  <meta name="keywords" content="rounded corners, Windows utility, WinUI 3, screen overlay, multi-monitor, Windows 11, squircle, display customization" />
+  <meta name="author" content="Jihed Kdiss" />
+  <meta name="theme-color" content="#005FB8" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="application-name" content="Rounded Screen Corners" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="generator" content="Hand-crafted" />
+  <link rel="canonical" href="https://jihedkdiss.github.io/RoundedScreenCorners/" />
+  <link rel="icon" type="image/png" sizes="48x48" href="https://raw.githubusercontent.com/jihedkdiss/RoundedScreenCorners/main/RoundedScreenCorners/Assets/Square44x44Logo.targetsize-48.png" />
+  <link rel="icon" type="image/png" sizes="256x256" href="https://raw.githubusercontent.com/jihedkdiss/RoundedScreenCorners/main/RoundedScreenCorners/Assets/Square44x44Logo.targetsize-256.png" />
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/jihedkdiss/RoundedScreenCorners/main/RoundedScreenCorners/Assets/Square150x150Logo.scale-200.png" />
+  <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+
+  <meta property="og:title" content="Rounded Screen Corners — Beautiful rounded corners for Windows displays" />
+  <meta property="og:description" content="A lightweight Windows utility that adds customizable rounded corner overlays across your displays. Built with WinUI 3." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jihedkdiss.github.io/RoundedScreenCorners/" />
+  <meta property="og:site_name" content="Rounded Screen Corners" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/jihedkdiss/RoundedScreenCorners/main/docs/images/home-page.png" />
+  <meta property="og:image:alt" content="Rounded Screen Corners settings dashboard on Windows 11" />
+  <meta property="og:image:width" content="1858" />
+  <meta property="og:image:height" content="1042" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Rounded Screen Corners — Beautiful rounded corners for Windows displays" />
+  <meta name="twitter:description" content="Customizable rounded corner overlays for Windows displays. Built with WinUI 3." />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/jihedkdiss/RoundedScreenCorners/main/docs/images/home-page.png" />
+  <meta name="twitter:image:alt" content="Rounded Screen Corners settings dashboard on Windows 11" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Rounded Screen Corners",
+    "operatingSystem": "Windows 10, Windows 11",
+    "applicationCategory": "UtilitiesApplication",
+    "description": "Rounded Screen Corners is a lightweight Windows utility that adds customizable rounded corner overlays to your displays. Built with WinUI 3.",
+    "url": "https://jihedkdiss.github.io/RoundedScreenCorners/",
+    "image": "https://raw.githubusercontent.com/jihedkdiss/RoundedScreenCorners/main/RoundedScreenCorners/Assets/Square310x310Logo.scale-400.png",
+    "softwareVersion": "1.x",
+    "downloadUrl": "https://github.com/jihedkdiss/RoundedScreenCorners/releases/latest",
+    "license": "https://github.com/jihedkdiss/RoundedScreenCorners/blob/main/LICENSE",
+    "author": {
+      "@type": "Person",
+      "name": "Jihed Kdiss",
+      "url": "https://github.com/jihedkdiss"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "url": "https://github.com/jihedkdiss/RoundedScreenCorners/releases/latest",
+        "category": "free",
+        "availability": "https://schema.org/InStock"
+      },
+      {
+        "@type": "Offer",
+        "price": "0.99",
+        "priceCurrency": "USD",
+        "url": "https://apps.microsoft.com/detail/9N9XMSJZDTSC?referrer=appbadge&cid=pages_install&mode=direct",
+        "category": "Microsoft Store",
+        "availability": "https://schema.org/InStock"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does it work on Windows 10?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Rounded Screen Corners supports Windows 10 build 17763 or newer and Windows 11. It uses WinUI 3 and the Windows App SDK runtime, which is bundled with packaged installers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it support multiple monitors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. You can show overlays on all displays or choose a specific monitor from the app settings."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I choose the corner style?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The app supports circle and squircle rounding modes, radius control, opacity control, per-corner toggles, and edge padding."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it collect telemetry?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Rounded Screen Corners makes no network calls and collects no telemetry. Settings and crash logs stay on your machine."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the GitHub version the same as the Microsoft Store version?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The GitHub version and Microsoft Store version use the same code and feature set. The Microsoft Store package adds one-click install and automatic updates; the GitHub release is a signed .msixbundle you sideload and update manually."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="container">
+      <a class="nav-brand" href="./" aria-label="Rounded Screen Corners — home">
+        <img src="https://raw.githubusercontent.com/jihedkdiss/RoundedScreenCorners/main/RoundedScreenCorners/Assets/Square44x44Logo.targetsize-48.png" alt="" width="20" height="20" decoding="async" />
+        <span>Rounded Screen Corners</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#install">Install</a>
+        <a href="#faq">FAQ</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://github.com/jihedkdiss/RoundedScreenCorners" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="hero">
+      <div class="container">
+        <div class="hint-pill" aria-label="Version 1 now on the Microsoft Store">
+          <span class="dot" aria-hidden="true">v1</span>
+          <span>Now on the Microsoft Store</span>
+        </div>
+        <h1>Beautiful rounded<br />corners for <span class="accent">Windows</span>.</h1>
+        <p class="lede">A lightweight WinUI 3 utility that adds customizable corner overlays to your displays, with squircle styling, multi-monitor support, and a quiet system-tray workflow.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://apps.microsoft.com/detail/9N9XMSJZDTSC?referrer=appbadge&amp;cid=pages_hero&amp;mode=direct">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 0h7.5v7.5H0V0Zm8.5 0H16v7.5H8.5V0ZM0 8.5h7.5V16H0V8.5Zm8.5 0H16V16H8.5V8.5Z"/></svg>
+            Get on Microsoft Store
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/jihedkdiss/RoundedScreenCorners/releases/latest">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.18.55-.39v-1.36c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.16-.89-1.16-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.77-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.83-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.52.56.83 1.27.83 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.39A8 8 0 0 0 8 0Z"/></svg>
+            Download on GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <section id="features" aria-labelledby="features-title">
+      <div class="container">
+        <h2 id="features-title">What it does</h2>
+        <p class="section-lede">A small utility for the visual details you notice all day.</p>
+        <div class="features">
+          <div class="feature fade-in">
+            <div class="feature-glyph">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="14" height="14" rx="4"/><path d="M7 3v4H3M13 3v4h4M7 17v-4H3M13 17v-4h4"/></svg>
+            </div>
+            <h3>Rounded screen overlays</h3>
+            <p>Add soft, customizable overlays to the physical corners of your display for a Windows 11-style finish.</p>
+          </div>
+
+          <div class="feature fade-in">
+            <div class="feature-glyph">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="4" width="12" height="12" rx="5"/><path d="M7 10h6M10 7v6"/></svg>
+            </div>
+            <h3>Circle or squircle</h3>
+            <p>Switch between classic circular rounding and smoother squircle geometry, then tune radius and opacity.</p>
+          </div>
+
+          <div class="feature fade-in">
+            <div class="feature-glyph">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4h5v5H4zM11 4h5v5h-5zM4 11h5v5H4zM11 11h5v5h-5z"/></svg>
+            </div>
+            <h3>Per-corner control</h3>
+            <p>Enable exactly the corners you want, adjust edge padding, and preview the result before you tuck it away.</p>
+          </div>
+
+          <div class="feature fade-in">
+            <div class="feature-glyph">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2.25" y="4.25" width="9" height="6.5" rx="1.25"/><rect x="9.75" y="8.25" width="8" height="5.5" rx="1.25"/><path d="M5.75 13.5h-.5M14 16h-.5"/></svg>
+            </div>
+            <h3>Multi-monitor support</h3>
+            <p>Run on all displays or target one specific monitor, with display detection handled by the app.</p>
+          </div>
+
+          <div class="feature fade-in">
+            <div class="feature-glyph">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 14.5h14M5.5 11.5l2 2 5-5"/><circle cx="13" cy="14.5" r="0.6" fill="currentColor" stroke="none"/><circle cx="15.25" cy="14.5" r="0.6" fill="currentColor" stroke="none"/></svg>
+            </div>
+            <h3>Lives in the tray</h3>
+            <p>Open settings from the tray, hide the tray icon if you prefer, and optionally launch minimized at sign-in.</p>
+          </div>
+
+          <div class="feature fade-in">
+            <div class="feature-glyph">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.75 4 5v4.5c0 3.45 2.4 6.6 6 7.75 3.6-1.15 6-4.3 6-7.75V5l-6-2.25Z"/><path d="m7.5 10 1.75 1.75L13 8" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Private by design</h3>
+            <p>No network calls, no analytics, no account. Settings and crash logs stay in your local app data folder.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screenshots" aria-labelledby="screenshots-title">
+      <div class="container">
+        <h2 id="screenshots-title">See it in action</h2>
+        <p class="section-lede">Native Fluent Design, ready for the Store listing.</p>
+
+        <div class="shots">
+          <figure class="shot shot--lead" data-label="Home">
+            <img src="images/home-page.png" alt="Rounded Screen Corners dashboard with radius, style, corner, monitor, and startup controls" width="1858" height="1042" loading="lazy" decoding="async" onerror="this.closest('.shot').classList.add('shot--missing')" />
+            <figcaption>Home dashboard — every corner setting in a compact, native WinUI layout.</figcaption>
+          </figure>
+
+          <figure class="shot" data-label="Corner style">
+            <img src="images/fluent-design-showcase.png" alt="Rounded Screen Corners style controls for squircle radius, opacity, and edge padding" width="1858" height="1042" loading="lazy" decoding="async" onerror="this.closest('.shot').classList.add('shot--missing')" />
+            <figcaption>Corner style — squircle tuning, opacity, and preview controls with Fluent spacing.</figcaption>
+          </figure>
+
+          <figure class="shot" data-label="Displays">
+            <img src="images/advanced-settings-showcase.png" alt="Rounded Screen Corners monitor targeting and startup settings" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.shot').classList.add('shot--missing')" />
+            <figcaption>Displays — choose all monitors or target a specific display.</figcaption>
+          </figure>
+
+          <figure class="shot" data-label="Windows 11">
+            <img src="images/placement-settings-showcase.png" alt="Rounded Screen Corners running in a Windows 11 style desktop preview" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.shot').classList.add('shot--missing')" />
+            <figcaption>At home on Windows 11 — Mica surfaces, system accent, and light/dark theme support.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" aria-labelledby="install-title">
+      <div class="container">
+        <h2 id="install-title">Two ways to install</h2>
+        <p class="section-lede">Same app, same features. Pick the channel that fits.</p>
+        <div class="install-grid">
+          <div class="install-card fade-in">
+            <span class="badge-pill recommended">Recommended</span>
+            <h3>Microsoft Store</h3>
+            <p>One-click install with automatic background updates. A small one-time purchase that supports ongoing development.</p>
+            <a class="btn btn-primary" href="https://apps.microsoft.com/detail/9N9XMSJZDTSC?referrer=appbadge&amp;cid=pages_install&amp;mode=direct">Get on Microsoft Store</a>
+          </div>
+          <div class="install-card fade-in">
+            <span class="badge-pill foss">Free &amp; open source</span>
+            <h3>GitHub release</h3>
+            <p>Fully featured, completely free, sideloaded as a signed <code>.msixbundle</code>. Updates are manual.</p>
+            <a class="btn btn-primary" href="https://github.com/jihedkdiss/RoundedScreenCorners/releases/latest">Download latest release</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <h2 id="faq-title">Frequently asked questions</h2>
+        <p class="section-lede">The short answers to the most common questions.</p>
+
+        <div class="faq">
+          <details class="faq-item fade-in">
+            <summary><span>Does it work on Windows 10?</span><svg class="chev" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5 8 10l3.5-3.5"/></svg></summary>
+            <div class="faq-body"><p>Yes. Rounded Screen Corners supports Windows 10 build 17763 or newer and Windows 11. Packaged builds bundle the Windows App SDK runtime.</p></div>
+          </details>
+
+          <details class="faq-item fade-in">
+            <summary><span>Does it support multiple monitors?</span><svg class="chev" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5 8 10l3.5-3.5"/></svg></summary>
+            <div class="faq-body"><p>Yes. You can show overlays across all displays or choose a specific monitor from the settings page.</p></div>
+          </details>
+
+          <details class="faq-item fade-in">
+            <summary><span>Can I choose the corner style?</span><svg class="chev" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5 8 10l3.5-3.5"/></svg></summary>
+            <div class="faq-body"><p>Yes. Choose circle or squircle rounding, tune the radius and opacity, adjust edge padding, and enable only the corners you want.</p></div>
+          </details>
+
+          <details class="faq-item fade-in">
+            <summary><span>What happens at startup?</span><svg class="chev" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5 8 10l3.5-3.5"/></svg></summary>
+            <div class="faq-body"><p>The app can register a packaged StartupTask and launch minimized at sign-in, so the overlays are available without opening the settings window.</p></div>
+          </details>
+
+          <details class="faq-item fade-in">
+            <summary><span>What permissions does it need?</span><svg class="chev" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5 8 10l3.5-3.5"/></svg></summary>
+            <div class="faq-body"><p>The app runs with standard user permissions and makes no network requests. The GitHub sideload installer asks for administrator access once to trust its signing certificate; the Microsoft Store install does not. Packaged launch at sign-in can be disabled in the app or Windows Startup apps.</p></div>
+          </details>
+
+          <details class="faq-item fade-in">
+            <summary><span>Why is it on the Microsoft Store too?</span><svg class="chev" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5 8 10l3.5-3.5"/></svg></summary>
+            <div class="faq-body"><p>The GitHub version stays free and open source. The Store channel adds one-click install and automatic updates for people who prefer that workflow, with no paywalled or gated features between channels.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Privacy at a glance">
+      <div class="container">
+        <div class="privacy-callout fade-in" role="note">
+          <div class="glyph">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.75 4 5v4.5c0 3.45 2.4 6.6 6 7.75 3.6-1.15 6-4.3 6-7.75V5l-6-2.25Z"/><path d="m7.5 10 1.75 1.75L13 8" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h3>Privacy by default</h3>
+            <p>Rounded Screen Corners makes no network calls and collects no telemetry. Your settings and crash logs stay on your machine. <a href="privacy.html">Read the privacy policy<span aria-hidden="true"> →</span></a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container">
+      <div>© <span id="year"></span> Jihed Kdiss · <a href="https://github.com/jihedkdiss/RoundedScreenCorners/blob/main/LICENSE" rel="license">MIT</a></div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="https://github.com/jihedkdiss/RoundedScreenCorners" rel="noopener">GitHub</a>
+        <a href="https://github.com/sponsors/jihedkdiss" rel="noopener">Sponsor</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://github.com/jihedkdiss/RoundedScreenCorners/issues" rel="noopener">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    (function () {
+      const items = document.querySelectorAll('.fade-in');
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(el => el.classList.add('visible'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = Array.prototype.indexOf.call(entry.target.parentNode.children, entry.target);
+            entry.target.style.transitionDelay = (Math.min(idx, 5) * 60) + 'ms';
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+      items.forEach(el => io.observe(el));
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+name: .NET format
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  dotnet-format:
+    runs-on: windows-latest
+
+    # WindowsAppSDKSelfContained=true rejects AnyCPU during MSBuild project load,
+    # so dotnet-format needs an explicit Windows architecture.
+    env:
+      Platform: x64
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore RoundedScreenCorners/RoundedScreenCorners.csproj /p:Platform=x64
+      - name: Format
+        run: dotnet format RoundedScreenCorners/RoundedScreenCorners.csproj --verify-no-changes --verbosity diagnostic
